@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-host
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+      - host: ingress4.danielvieiravega.com.br
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: goserver-service
+                  port:
+                    number: 80
+              path: /
+  tls:
+    - hosts:
+        - ingress4.danielvieiravega.com.br
+      secretName: letsencrypt
